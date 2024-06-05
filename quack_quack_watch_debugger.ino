@@ -25,8 +25,8 @@ unsigned char table[] = { 0x3f, 0x06, 0x5b, 0x4f, 0x66, 0x6d, 0x7d, 0x07, 0x7f, 
 const int nbrDigits = 4;
 const int digitPins[nbrDigits] = { 6, 7, 8, 9 };
 
-int hourAlarm = 11;
-int minuteAlarm = 30;
+int hourAlarm = 17;
+int minuteAlarm = 43;
 
 int lastUpdatedDay = -1;
 bool timeToSync = true;
@@ -37,8 +37,10 @@ int actualHour = -1;
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(buzzPin, LOW);
-
+  Serial.begin(9600);
   DCF.Start();
+  Serial.println("Warten auf DCF77-Zeit... ");
+  Serial.println("Dies dauert mindestens 2 Minuten, in der Regel eher länger.");
 
   myServo.attach(servoMotorPin);
 
@@ -47,6 +49,7 @@ void setup() {
   pinMode(clock, OUTPUT);
   pinMode(data, OUTPUT);
 
+  Serial.print("INIT SETUP");
   //Configuring output pins for commun cathod of each 7 segment digit
   for (int i = 0; i < nbrDigits; i++) {
     pinMode(digitPins[i], OUTPUT);
@@ -60,7 +63,7 @@ void loop() {
     time_t DCFtime = DCF.getTime();
 
     if (DCFtime != 0) {
-      // Time is updated
+      Serial.println("Time is updated");
       setTime(DCFtime);
       quackOfDuck();
       timeToSync = false;
@@ -68,8 +71,10 @@ void loop() {
   }
 
   if (hourAlarm == hour() && minuteAlarm == minute() && second() < 10) {
-    quackIsAlive();
+    kukuIsAlive();
   }
+
+  digitalClockDisplay();
 
   if (actualMinute != minute()) {
     actualMinute = minute();
@@ -77,6 +82,7 @@ void loop() {
     int currentDay = day();
 
     if (((currentDay - 1) % 7 == 0) && currentDay != lastUpdatedDay) {
+      Serial.println("Time to sync");
       timeToSync = true;
       lastUpdatedDay = currentDay;
     }
@@ -121,7 +127,32 @@ void displayDigit(unsigned char num, int digit) {
   digitalWrite(digitPins[digit], HIGH);
 }
 
-void quackIsAlive() {
+
+
+void digitalClockDisplay() {
+  // digital clock display of the time
+  printDigits(hour());
+  Serial.print(":");
+  printDigits(minute());
+  Serial.print(":");
+  printDigits(second());
+  Serial.print(" ");
+  Serial.print(day());
+  Serial.print(" ");
+  Serial.print(month());
+  Serial.print(" ");
+  Serial.print(year());
+  Serial.println();
+}
+
+void printDigits(int digits) {
+  // utility function for digital clock display: prints preceding colon and leading 0
+  if (digits < 10)
+    Serial.print('0');
+  Serial.print(digits);
+}
+
+void kukuIsAlive() {
   for (int i = 110; i > 0; i--) {
     displayNumber(hour(), minute());
     myServo.write(i);
@@ -139,7 +170,7 @@ void quackIsAlive() {
 
 void quackOfDuck() {
   for (int i = 0; i < 2; i++) {
-    tone(buzzPin, 460);  
+    tone(buzzPin, 460);  //
     delay(300);
     noTone(buzzPin);
     digitalWrite(buzzPin, LOW);
