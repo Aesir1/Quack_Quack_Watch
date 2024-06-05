@@ -31,7 +31,10 @@ The following table contains a list of interfaces that goes connected to the Ard
 | Sensor/Aktor | Pin | Pin on Arduino| Pin on 4 Digit|
 |--------------|-----|---------------|---------------|
 |    Buzzer    | +   |      12       |        x      |
+|    Buzzer    | -   |     GND       |        x      |
+| Servo motor  | +   |      5V       |        x      |
 | Servo motor  | Signal |   11       |        x      |
+| Servo motor  |GND    |      GND    |        x      |
 |DCF           |+    |      3.3V     |        x      |
 |DCF           |Signal |      2      |        x      |
 |DCF           |GND    |      GND    |        x      |
@@ -78,8 +81,9 @@ References used for information gathering and entrypoint to develop this project
 
 ## 3D Models
 In the **"3d"** folder is a STL object ready to sclice and print. Any new modification of the 3d model can be found on my page => https://www.thingiverse.com/thing:6643637 
-The professor duck 3D model comes from this repo =>  https://www.thingiverse.com/thing:1115584
-![Project video](media/Quack_Alarm.mp4)
+The professor duck 3D model comes from this repo =>  https://www.thingiverse.com/thing:1115584 <br />
+
+[![Duck video](media/Conection_4.jpg)](media/Quack_Alarm.mp4)
 
 
 ## Media and related data
