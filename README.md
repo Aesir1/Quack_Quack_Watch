@@ -29,6 +29,7 @@ Diagramms ... follows....
 ### Arduino nano 
 The following table contains a list of interfaces that goes connected to the Arduino board.
 | Sensor/Aktor | Pin | Pin on Arduino| Pin on 4 Digit|
+|--------------|-----|---------------|---------------|
 |    Buzzer    | +   |      12       |        x      |
 | Servo motor  | Signal |   11       |        x      |
 |DCF           |+    |      3.3V     |        x      |
