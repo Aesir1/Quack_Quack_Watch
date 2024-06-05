@@ -87,6 +87,6 @@ The professor duck 3D model comes from this repo =>  https://www.thingiverse.com
 
 
 ## Media and related data
-Photos related to project could be found inside **"media"** folder
+Photos and video related to project could be found inside **"media"** folder
 
-_Dedicated to Daniel Kuon_
+_Dedicated to Kuon_
